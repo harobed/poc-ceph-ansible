@@ -6,7 +6,8 @@
 
 - block:
   - name: Create Ceph block device image
-    command: rbd create --size {{ item.image_size }} rbd/{{ item.image_name }} --image-format 2 --image-feature layering
+    #command: rbd create --size {{ item.image_size }} rbd/{{ item.image_name }} --image-format 1 --image-feature layering
+    command: rbd create --size {{ item.image_size }} rbd/{{ item.image_name }} --image-format 1
 
   - name: Map Ceph Block Device
     command: rbd map rbd/{{ item.image_name }} --id admin
@@ -17,6 +18,9 @@
 
   - name: Format Ceph Block device image
     command: mkfs.ext4 -m0 {{ block_device_path.stdout }}
+
+  - name: Umap Ceph Block Device
+    command: rbd unmap rbd/{{ item.image_name }}
   when: image_exist.rc != 0
 
 - name: Write OpenShift PersistentVolume config files

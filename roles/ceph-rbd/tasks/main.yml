@@ -1,0 +1,6 @@
+---
+- include: create_image.yml
+  with_items: "{{ rbd_images }}"
+  run_once: true
+  loop_control:
+    loop_var: item

@@ -1,0 +1,46 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = false
+  config.hostmanager.manage_guest = true
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = true
+
+  config.vm.define "ceph-test-1" do |config|
+    config.vm.box = "deb/jessie-amd64"
+    config.vm.hostname = "ceph-test-1"
+    config.vm.network "private_network", ip: '172.28.128.3'
+    config.vm.provider "virtualbox" do |vb|
+      disk_name="disk-1-1"
+      vb.customize ['createhd', '--filename', disk_name, '--size', 500 * 1024] unless File.exist?("#{disk_name}.vdi")
+      vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', "#{disk_name}.vdi"]
+    end
+  end
+  config.vm.define "ceph-test-2" do |config|
+    config.vm.box = "deb/jessie-amd64"
+    config.vm.hostname = "ceph-test-2"
+    config.vm.network "private_network", ip: '172.28.128.4'
+    config.vm.provider "virtualbox" do |vb|
+      disk_name="disk-2-1"
+      vb.customize ['createhd', '--filename', disk_name, '--size', 500 * 1024] unless File.exist?("#{disk_name}.vdi")
+      vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', "#{disk_name}.vdi"]
+    end
+  end
+  config.vm.define "ceph-test-3" do |config|
+    config.vm.box = "deb/jessie-amd64"
+    config.vm.hostname = "ceph-test-3"
+    config.vm.network "private_network", ip: '172.28.128.6'
+    config.vm.provider "virtualbox" do |vb|
+      disk_name="disk-3-1"
+      vb.customize ['createhd', '--filename', disk_name, '--size', 500 * 1024] unless File.exist?("#{disk_name}.vdi")
+      vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', "#{disk_name}.vdi"]
+    end
+  end
+  config.vm.define "ceph-client-1" do |config|
+    config.vm.box = "centos/atomic-host"
+    config.vm.hostname = "ceph-client-1"
+    config.vm.network "private_network", ip: '172.28.128.5'
+  end
+end

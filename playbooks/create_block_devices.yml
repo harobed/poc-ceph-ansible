@@ -1,0 +1,5 @@
+---
+- hosts:
+  - ceph-client
+  roles:
+  - ceph-rbd

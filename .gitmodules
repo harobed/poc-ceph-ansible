@@ -1,0 +1,4 @@
+[submodule "ceph-ansible-upstream"]
+	path = ceph-ansible-upstream
+	url = https://github.com/harobed/ceph-ansible
+	branch = stable

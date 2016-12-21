@@ -1,0 +1,32 @@
+---
+dummy:
+cluster: ceph # cluster name
+ceph_stable: true # use ceph stable branch
+ceph_stable_release: jewel # ceph stable release
+fsid: "7ecb6ebd-2e7a-44c3-bf0d-ff8d193e03ac"
+generate_fsid: false
+monitor_interface: eth1
+public_network: 172.28.128.0/24
+cluster_network: "{{ public_network }}"
+ceph_conf_overrides:
+   global:
+      osd_pool_default_size: 2
+      osd_pool_default_min_size: 1
+journal_collocation: True
+devices:
+  - /dev/sdb
+pool_default_pg_num: 50
+rbd_images:
+- image_name: "image1"
+  image_size: "200"
+- image_name: "image2"
+  image_size: "400"
+
+ntp_service_enabled: false # I disable it because I use geerlingguy.ntp instead ceph-common roles
+
+ntp_enabled: true
+ntp_timezone: Etc/UTC
+ntp_manage_config: true
+
+fetch_directory: "{{ inventory_dir}}/../fetch/"
+openshift_pv_config_directory: "{{ inventory_dir}}/../openshift/"

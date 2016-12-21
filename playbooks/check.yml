@@ -1,0 +1,33 @@
+---
+- hosts:
+  - all
+  gather_facts: false
+  tasks:
+  - name: Check date
+    command: date
+    register: date
+  - name: Uptime
+    command: uptime
+    register: uptime
+  - debug:
+      msg: "Date: {{ date.stdout }}\nUptime: {{ uptime.stdout }}"
+
+- hosts:
+  - ceph-client
+  gather_facts: false
+  tasks:
+    - command: ceph health
+      run_once: true
+      register: ceph_health
+
+    - debug:
+        msg: "ceph health {{ ceph_health.stdout }}"
+      run_once: true
+
+    - command: rbd ls
+      run_once: true
+      register: rbd_list
+
+    - debug:
+        msg: "rbd list: {{ rbd_list.stdout }}"
+      run_once: true

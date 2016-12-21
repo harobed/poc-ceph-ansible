@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-ceph-{{ item.image_name }}
+  labels:
+    storage-type: ceph-block
+spec:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: {{ item.image_size }}Mi
+  rbd: 
+    monitors: 
+      - 172.29.20.10:6789
+      - 172.29.20.11:6789
+    pool: rbd
+    image: {{ item.image_name }}
+    user: admin
+    secretRef:
+      name: ceph-secret 
+    fsType: ext4
+    readOnly: false
+  persistentVolumeReclaimPolicy: Recycle
+

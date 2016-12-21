@@ -1,0 +1,54 @@
+---
+- hosts:
+  - all
+  gather_facts: true
+  tasks:
+  - name: Upgrade Debian
+    apt: upgrade=dist update_cache=yes
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+  - name: Install apt-transport-https, python-simplejson and ntpstat
+    apt: name=apt-transport-https update_cache=yes
+    with_items:
+      - apt-transport-https
+      - python-simplejson
+      - ntpstat
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- hosts:
+  - mons
+  gather_facts: true
+  roles:
+  - geerlingguy.ntp
+
+- hosts:
+  - mons
+  gather_facts: false
+  become: True
+  roles:
+  - bash-completion
+
+- hosts: mons
+  gather_facts: true
+  become: True
+  roles:
+  - ceph-mon
+
+- hosts: osds
+  gather_facts: true
+  become: True
+  roles:
+  - ceph-osd
+
+- hosts: ceph-client
+  gather_facts: false
+  become: True
+  roles:
+  - ceph-client
+
+- hosts: ceph-rbd
+  gather_facts: false
+  become: True
+  roles:
+  - ceph-rbd
+

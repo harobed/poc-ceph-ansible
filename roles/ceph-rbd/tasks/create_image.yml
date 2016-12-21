@@ -1,0 +1,23 @@
+---
+- name: check in {{ item.image_name }} not exists
+  command: rbd info {{ item.image_name }}
+  register: image_exist
+  failed_when: false
+
+- block:
+  - name: Create Ceph block device image
+    command: rbd create --size {{ item.image_size }} rbd/{{ item.image_name }} --image-format 2 --image-feature layering
+
+  - name: Map Ceph Block Device
+    command: rbd map rbd/{{ item.image_name }} --id admin
+
+  - name: Read Block Device path
+    shell: "rbd showmapped --format json | python -c 'import sys, json; print filter(lambda i: i[1][\"name\"] == \"{{ item.image_name }}\", json.load(sys.stdin).items())[0][1][\"device\"]'"
+    register: block_device_path
+
+  - name: Format Ceph Block device image
+    command: mkfs.ext4 -m0 {{ block_device_path.stdout }}
+  when: image_exist.rc != 0
+
+- name: Write OpenShift PersistentVolume config files
+  local_action: template src=pv.yaml.j2 dest={{ openshift_pv_config_directory }}/pv-ceph-{{ item.image_name }}.yaml

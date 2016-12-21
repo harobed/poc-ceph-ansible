@@ -16,6 +16,7 @@ ceph-osd-1
 ceph-osd-2
 ceph-osd-3
 ceph-client-1
+ceph-client-2
 
 [ceph-rbd]
 

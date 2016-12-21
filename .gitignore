@@ -1,5 +1,5 @@
 .vagrant/
-vagrant/*.vdi
+*.vdi
 vagrant/fetch/
 vagrant/hosts/.cache/
 playbooks/*\.retry

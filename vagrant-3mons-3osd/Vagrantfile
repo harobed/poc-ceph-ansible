@@ -11,17 +11,17 @@ Vagrant.configure("2") do |config|
   # Monitors
   config.vm.define "ceph-mon-1" do |config|
     config.vm.box = "deb/jessie-amd64"
-    config.vm.hostname = "ceph-test-1"
+    config.vm.hostname = "ceph-mon-1"
     config.vm.network "private_network", ip: '172.28.128.2'
   end
   config.vm.define "ceph-mon-2" do |config|
     config.vm.box = "deb/jessie-amd64"
-    config.vm.hostname = "ceph-test-2"
+    config.vm.hostname = "ceph-mon-2"
     config.vm.network "private_network", ip: '172.28.128.3'
   end
   config.vm.define "ceph-mon-3" do |config|
     config.vm.box = "deb/jessie-amd64"
-    config.vm.hostname = "ceph-test-3"
+    config.vm.hostname = "ceph-mon-3"
     config.vm.network "private_network", ip: '172.28.128.4'
   end
 
@@ -63,7 +63,7 @@ Vagrant.configure("2") do |config|
     config.vm.hostname = "ceph-client-1"
     config.vm.network "private_network", ip: '172.28.128.8'
     config.vm.provider "virtualbox" do |vb|
-      vb.memory = 1024
+      vb.memory = 1524
     end
   end
   #config.vm.define "ceph-client-2" do |config|

@@ -1,0 +1,14 @@
+---
+- hosts: mons
+  tasks:
+  - name: Restart Ceph services
+    systemd: state=restarted name=ceph
+  - name: Restart Mons services
+    systemd: state=restarted name=ceph-mon@*
+    
+- hosts: osds
+  tasks:
+  - name: Restart Ceph services
+    systemd: state=restarted name=ceph
+  - name: Restart Osds services
+    systemd: state=restarted name=ceph-osd@*

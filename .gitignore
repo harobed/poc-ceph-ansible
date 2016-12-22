@@ -1,5 +1,6 @@
 .vagrant/
 *.vdi
-vagrant/fetch/
-vagrant/hosts/.cache/
+fetch/
+.cache/
+pv-ceph-image*.yaml
 playbooks/*\.retry

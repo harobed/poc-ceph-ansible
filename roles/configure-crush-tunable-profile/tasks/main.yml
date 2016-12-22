@@ -1,0 +1,4 @@
+---
+- name: Configure osd crush tunables {{ osd_crush_tunables }}
+  command: ceph osd crush tunables {{ osd_crush_tunables }}
+  run_once: true

@@ -40,6 +40,10 @@
   roles:
   - ceph-osd
 
+- hosts: mons
+  roles:
+  - configure-crush-tunable-profile
+
 - hosts: ceph-client
   gather_facts: false
   become: True
@@ -51,4 +55,3 @@
   become: True
   roles:
   - ceph-rbd
-

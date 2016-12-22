@@ -30,3 +30,4 @@ ntp_manage_config: true
 
 fetch_directory: "{{ inventory_dir}}/../fetch/"
 openshift_pv_config_directory: "{{ inventory_dir}}/../openshift/"
+osd_crush_tunables: firefly
